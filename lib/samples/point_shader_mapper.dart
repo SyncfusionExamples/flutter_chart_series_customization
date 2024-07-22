@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../model.dart';
-
 class PointShaderSample extends StatefulWidget {
   const PointShaderSample({super.key});
 
@@ -15,35 +13,45 @@ class _PointShaderSampleState extends State<PointShaderSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SfCircularChart(
-        series: <CircularSeries<ChartData, String>>[
-          PieSeries(
-            dataSource: categoryData,
-            xValueMapper: (ChartData data, int index) => data.x,
-            yValueMapper: (ChartData data, int index) => data.y,
-            pointColorMapper: (datum, index) => Colors.accents[index],
+        series: <CircularSeries<CircularChartData, String>>[
+          DoughnutSeries(
+            dataSource: <CircularChartData>[
+              CircularChartData('2020', 20, Colors.red, Colors.orange),
+              CircularChartData('2021', 50, Colors.orange, Colors.purple),
+              CircularChartData('2022', 100, Colors.purple, Colors.red),
+            ],
+            xValueMapper: (CircularChartData data, int index) => data.x,
+            yValueMapper: (CircularChartData data, int index) => data.y,
             pointShaderMapper:
                 (dynamic data, int index, Color color, Rect rect) {
-              int firstColorIndex = -1;
-              int secondColorIndex = -1;
-              if (index == 0) {
-                firstColorIndex = 0;
-                secondColorIndex = 1;
-              } else {
-                final int validIndex = index % (Colors.accents.length - 1);
-                firstColorIndex = validIndex - 1;
-                secondColorIndex = validIndex;
-              }
               return RadialGradient(
                 colors: <Color>[
-                  Colors.accents[firstColorIndex],
-                  Colors.accents[secondColorIndex],
+                  data.start,
+                  data.end,
                 ],
                 stops: const <double>[0, 1],
               ).createShader(rect);
             },
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.outside,
+              connectorLineSettings: ConnectorLineSettings(
+                type: ConnectorType.curve,
+                color: Colors.purple,
+              ),
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class CircularChartData {
+  CircularChartData(this.x, this.y, this.start, this.end);
+
+  final String x;
+  final double y;
+  final Color start;
+  final Color end;
 }

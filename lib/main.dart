@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'samples/boder_gradient.dart';
+import 'samples/color_border.dart';
 import 'samples/custom_series_renderer.dart';
 import 'samples/customize_segment.dart';
 import 'samples/gradient.dart';
@@ -25,18 +26,19 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   late Map<String, Widget> _routes;
-  late Widget _content;
+  late String _content;
   late ScrollController _scrollController;
 
   void _handlePageContentChange(String route) {
     setState(() {
-      _content = _routes[route]!;
+      _content = route;
     });
   }
 
   @override
   void initState() {
     _routes = {
+      'Color & Border Color': const ColorAndBorderSample(),
       'Point Color Mapper': const ColorMapperSample(),
       'Gradient': const FillGradientSample(),
       'Border Gradient': const BorderGradientSample(),
@@ -46,7 +48,7 @@ class _MainAppState extends State<MainApp> {
       'Customize Segment': const CustomSegmentSample(),
       'Custom Series Rendering': const CustomSeriesSample(),
     };
-    _content = const ColorMapperSample();
+    _content = 'Color & Border Color';
     _scrollController = ScrollController();
     super.initState();
   }
@@ -70,7 +72,7 @@ class _MainAppState extends State<MainApp> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: _content,
+                child: _routes[_content]!,
               ),
             ),
             Scrollbar(
@@ -88,13 +90,11 @@ class _MainAppState extends State<MainApp> {
                         child: ActionChip(
                           label: Text(key),
                           labelPadding: const EdgeInsets.all(5.0),
-                          backgroundColor: _content == _routes[key]
-                              ? themeData.primaryColor
-                              : null,
+                          backgroundColor:
+                              _content == key ? themeData.primaryColor : null,
                           labelStyle: TextStyle(
-                            color: _content == _routes[key]
-                                ? Colors.white
-                                : Colors.black,
+                            color:
+                                _content == key ? Colors.white : Colors.black,
                           ),
                           onPressed: () => _handlePageContentChange(key),
                         ),

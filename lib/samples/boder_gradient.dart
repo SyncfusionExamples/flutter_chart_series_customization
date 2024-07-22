@@ -13,7 +13,6 @@ class BorderGradientSample extends StatefulWidget {
 class _BorderGradientSampleState extends State<BorderGradientSample> {
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
     return Scaffold(
       body: SfCartesianChart(
         primaryXAxis: const CategoryAxis(),
@@ -22,21 +21,25 @@ class _BorderGradientSampleState extends State<BorderGradientSample> {
         ),
         series: <CartesianSeries<ChartData, String>>[
           ColumnSeries(
-            dataSource: categoryData,
+            dataSource: <ChartData>[
+              ChartData('2020', 20),
+              ChartData('2021', 100),
+            ],
             xValueMapper: (ChartData data, int index) => data.x,
             yValueMapper: (ChartData data, int index) => data.y,
-            color: Colors.pink[50],
-            borderWidth: 2,
+            color: const Color.fromARGB(255, 227, 252, 251),
+            borderWidth: 3,
             borderRadius: BorderRadius.circular(10),
-            borderGradient: LinearGradient(
+            borderGradient: const LinearGradient(
               colors: <Color>[
-                themeData.colorScheme.primary,
-                themeData.colorScheme.surface,
+                Colors.red,
+                Colors.blue,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              stops: const <double>[0, 1],
+              stops: <double>[0, 1],
             ),
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
           ),
         ],
       ),

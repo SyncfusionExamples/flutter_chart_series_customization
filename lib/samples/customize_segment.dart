@@ -37,8 +37,18 @@ class _ColumnSeriesRenderer extends ColumnSeriesRenderer<ChartData, num> {
   @override
   void customizeSegment(ChartSegment segment) {
     super.customizeSegment(segment);
-    if (segment.currentSegmentIndex == 5) {
-      segment.fillPaint.color = Colors.red;
+    if (segment.currentSegmentIndex == 10) {
+      segment.fillPaint.shader = const LinearGradient(
+        colors: <Color>[
+          Colors.red,
+          Colors.orange,
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        stops: <double>[0, 1],
+      ).createShader(paintBounds);
+    } else {
+      segment.fillPaint.shader = null;
     }
   }
 }

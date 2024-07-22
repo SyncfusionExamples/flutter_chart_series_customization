@@ -23,7 +23,7 @@ class _CustomSeriesSampleState extends State<CustomSeriesSample> {
             dataSource: numericData,
             xValueMapper: (ChartData data, int index) => data.x,
             yValueMapper: (ChartData data, int index) => data.y,
-            width: 0.5,
+            borderColor: Colors.pink,
             onCreateRenderer: (ChartSeries<ChartData, num> series) {
               return _ColumnSeriesRenderer();
             },
@@ -45,13 +45,9 @@ class _ColumnSegment extends ColumnSegment<ChartData, num> {
     if (segmentRect == null) {
       return;
     }
-    super.onPaint(canvas); // Handles default rendering.
-    final Paint midlinePaint = Paint()
-      ..isAntiAlias = true
-      ..color = Colors.red
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 2;
-    final Rect outerRect = segmentRect!.outerRect;
-    canvas.drawLine(outerRect.centerLeft, outerRect.centerRight, midlinePaint);
+    final Rect fillRect = segmentRect!.outerRect;
+    canvas.drawOval(fillRect, fillPaint);
+    final Rect borderRect = fillRect.deflate(series.borderWidth / 2);
+    canvas.drawOval(borderRect, strokePaint);
   }
 }
