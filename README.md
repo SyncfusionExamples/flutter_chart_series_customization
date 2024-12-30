@@ -2,6 +2,8 @@
 
 This repository contains a sample that demonstrates the array of options for customizing the appearance of series in Syncfusion Charts package.
 
+Please refer the Blog through this [link](https://www.syncfusion.com/blogs/post/flutter-charts-series-customization).
+
 ## Syncfusion controls:
 
 This project used the following Syncfusion widget(s):
